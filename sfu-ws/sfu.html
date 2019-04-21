@@ -43,6 +43,7 @@ window.onload = function() {
         console.log("websocket connected to " + wsuri);
     }
     sock.onclose = function(e) {
+        console.log(e);
         console.log("websocket connection closed (" + e.code + ")");
         // sock = new WebSocket(wsuri);
     }
