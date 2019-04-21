@@ -56,7 +56,8 @@ func main() {
 
 	// Support https, so we can test by lan
 	fmt.Println("Web listening :" + *port)
-	panic(http.ListenAndServeTLS(":"+*port, "cert.pem", "key.pem", logRequest(http.DefaultServeMux)))
+	panic(http.ListenAndServe(":"+*port, logRequest(http.DefaultServeMux)))
+	// panic(http.ListenAndServeTLS(":"+*port, "cert.pem", "key.pem", logRequest(http.DefaultServeMux)))
 }
 
 func logRequest(handler http.Handler) http.Handler {

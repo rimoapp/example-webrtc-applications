@@ -34,7 +34,8 @@ var log = msg => {
 }
 
 var sock = null;
-var wsuri = "wss://" + location.host + "/ws";
+var wsuri = "ws://" + location.host + "/ws";
+// var wsuri = "wss://" + location.host + "/ws";
 var dataChannel = null;
 window.onload = function() {
     sock = new WebSocket(wsuri);
