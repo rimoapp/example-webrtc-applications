@@ -39,20 +39,20 @@ var dataChannel = null;
 window.onload = function() {
     sock = new WebSocket(wsuri);
     sock.onopen = function() {
-        <!-- console.log("websocket connected to " + wsuri); -->
+        console.log("websocket connected to " + wsuri);
     }
     sock.onclose = function(e) {
-        <!-- sock = new WebSocket('wss://' + location.host + '/ws'); -->
-        <!-- console.log("websocket connection closed (" + e.code + ")"); -->
+        console.log("websocket connection closed (" + e.code + ")");
+        // sock = new WebSocket(wsuri);
     }
     sock.onmessage = function(e) {
-        <!-- console.log("websocket message received: " + e.data); -->
+        console.log("websocket message received: " + e.data);
         document.getElementById('remoteSDP').value = e.data
-        <!-- console.log("startSession"); -->
+        console.log("startSession");
         window.startSession()
     }
     sock.onerror = function(e) {
-        <!-- console.log("websocket error: " + e.data); -->
+        console.log("websocket error: " + e.data);
     }
 };
 
@@ -84,7 +84,7 @@ window.createSession = isPublisher => {
                 document.getElementById('localSDP').value = pc.localDescription.sdp;
                 <!-- document.getElementById('localSDP').value = pc.localDescription.sdp; -->
                 sock.send(pc.localDescription.sdp);
-                <!-- console.log("send sdp to server:==============\n" + pc.localDescription.sdp); -->
+                console.log("send sdp to server:==============\n" + pc.localDescription.sdp);
             }
         }
 
@@ -97,9 +97,9 @@ window.createSession = isPublisher => {
                   .catch(log)
                 dataChannel = pc.createDataChannel('data')
             }).catch(log)
-            <!-- console.log("Publisher createOffer") -->
+            console.log("Publisher createOffer")
     } else {
-        <!-- console.log("Subcriber createOffer") -->
+        console.log("Subcriber createOffer")
         document.getElementById('msginput').style = 'display: none'
         dataChannel = pc.createDataChannel('data')
         dataChannel.onmessage = e => log(`receive data from '${dataChannel.label}' payload '${e.data}'`)
@@ -110,7 +110,7 @@ window.createSession = isPublisher => {
             .then(d => pc.setLocalDescription(d))
             .catch(log)
 
-            <!-- console.log("Subcriber ontrack") -->
+            console.log("Subcriber ontrack")
             pc.ontrack = function (event) {
                 var el = document.getElementById('video1')
                 el.srcObject = event.streams[0]
