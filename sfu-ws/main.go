@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
+	"os"
 	"net/http"
 
 	"github.com/pion/webrtc/v2"
@@ -32,6 +34,8 @@ func init() {
 	// Create the API object with the MediaEngine
 	api = webrtc.NewAPI(webrtc.WithMediaEngine(m))
 
+	log.SetOutput(os.Stderr)
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 }
 
 func main() {
@@ -52,5 +56,12 @@ func main() {
 
 	// Support https, so we can test by lan
 	fmt.Println("Web listening :" + *port)
-	panic(http.ListenAndServeTLS(":"+*port, "cert.pem", "key.pem", nil))
+	panic(http.ListenAndServeTLS(":"+*port, "cert.pem", "key.pem", logRequest(http.DefaultServeMux)))
+}
+
+func logRequest(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s %s %s\n", r.RemoteAddr, r.Method, r.URL)
+		handler.ServeHTTP(w, r)
+	})
 }
