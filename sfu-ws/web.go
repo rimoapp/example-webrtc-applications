@@ -13,7 +13,15 @@ import (
 	"time"
 )
 
+func fileExists(filename string) bool {
+    _, err := os.Stat(filename)
+    return err == nil
+}
+
 func genPem() {
+	if fileExists("cert.pem") {
+		return
+	}
 
 	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	checkError(err)
