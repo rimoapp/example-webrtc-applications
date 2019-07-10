@@ -51,7 +51,9 @@ func main() {
 					Encoding:        speechpb.RecognitionConfig_LINEAR16,
 					SampleRateHertz: 16000,
 					LanguageCode:    "ja-JP",
+					// MaxAlternatives: 5,
 				},
+				InterimResults: true,
 			},
 		},
 	}); err != nil {
@@ -102,7 +104,14 @@ func main() {
 			log.Fatalf("Could not recognize: %v", err)
 		}
 		for _, result := range resp.Results {
-			fmt.Printf("Result: %+v\n", result.Alternatives[0].Transcript)
+			if result.IsFinal {
+				for _, alternative := range result.Alternatives {
+					fmt.Printf("Result: %+v(%v)\n", alternative.Transcript, alternative.Confidence)
+				}
+				fmt.Println("============================================================")
+			} else {
+				fmt.Printf("Result: %+v\n", result.Alternatives[0].Transcript)
+			}
 		}
 	}
 	// [END speech_transcribe_streaming_mic]
