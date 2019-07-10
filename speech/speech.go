@@ -106,11 +106,11 @@ func main() {
 		for _, result := range resp.Results {
 			if result.IsFinal {
 				for _, alternative := range result.Alternatives {
-					fmt.Printf("Result: %+v(%v)\n", alternative.Transcript, alternative.Confidence)
+					fmt.Printf("\033[2K\033[GResult: %+v(%v)\n", alternative.Transcript, alternative.Confidence)
 				}
 				fmt.Println("============================================================")
 			} else {
-				fmt.Printf("Result: %+v\n", result.Alternatives[0].Transcript)
+				fmt.Printf("\033[2K\033[GResult: %+v", result.Alternatives[0].Transcript)
 			}
 		}
 	}
